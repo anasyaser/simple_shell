@@ -12,9 +12,8 @@ int get_size_tokens(char *user_input, char *token)
 	return (i);
 }
 
-char *[]get_args(char *user_input, int array_s)
+void get_args(char *user_input, char *args[])
 {
-	char *args[array_s + 1];
 	char *token;
 	unsigned int i = 0;
 
@@ -26,5 +25,4 @@ char *[]get_args(char *user_input, int array_s)
 		token = strtok(NULL, " ");
 		i++;
 	}
-	return (args);
 }

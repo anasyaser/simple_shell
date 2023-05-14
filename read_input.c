@@ -12,15 +12,12 @@ char *read_input()
 	size_t len = 0;
 	ssize_t inp;
 
-	while (1)
-	{
-		printf("$ ");
+	printf("$ ");
 
-		inp = getline(&input, &len, stdin);
-		if (inp > 0)
-			break;
-		else if (inp == -1)
-			exit(1);
-	}
+	inp = getline(&input, &len, stdin);
+	if (inp == -1)
+		exit(1);
+	*(input + inp - 1) = '\0';
+	
 	return (input);
 }

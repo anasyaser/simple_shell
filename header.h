@@ -8,7 +8,7 @@
 
 
 char *read_input();
-char *[]get_tokens(char *user_input);
+void get_args(char *user_input, char *args[]);
 
 #endif
 	
