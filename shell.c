@@ -1,25 +1,28 @@
+						\
 #include "header.h"
 
+/**
+ * main - Entry point
+ *
+ * @ac: arguments counter
+ * @av: array of program arguments
+ * @env: program environment
+ * Return: always (0)
+ */
 
-int main()
+int main(UNUSED int ac, UNUSED char **av, char **env)
 {
-	char *resl;
-	char *args[2];
-	int i = 0;
+	char *user_input;
+	char **args;
+
 	while (1)
 	{
-		resl = read_input();
-		get_args(resl, args);
-		/* while (args[i]) */
-		/* { */
-		/* 	printf("%s\n", args[i]); */
-		/* 	i++; */
-		/* } */
-		args[1] = NULL;
-		execve(args[0], args, NULL);
-		/* printf("User input:%s\n", resl); */
-		free(resl);
-	}
+		user_input = read_input();
+		args = get_args(user_input);
+		input_exec(args, env);
 
+		free(user_input);
+		free(args);
+	}
 	return (0);
 }
