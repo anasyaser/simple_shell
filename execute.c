@@ -67,6 +67,12 @@ void execute_command(char **args)
     int status;
     char *full_path;
 
+    /* Check for the "exit" command */
+    if (strcmp(args[0], "exit") == 0)
+    {
+        exit(EXIT_SUCCESS);
+    }
+
     /* Check if command exists in current dir or in PATH */
     full_path = command_in_dir(".", args[0]);
     if (!full_path)
@@ -105,3 +111,4 @@ void execute_command(char **args)
     }
     free(full_path);
 }
+
