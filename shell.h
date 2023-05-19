@@ -6,9 +6,10 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <sys/stat.h>
 #include <string.h>
+#include <sys/stat.h>
 
+extern char **environ;
 
 char **parse_command(char *command);
 void execute_command(char **args);

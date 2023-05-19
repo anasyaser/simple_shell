@@ -73,6 +73,16 @@ void execute_command(char **args)
         exit(EXIT_SUCCESS);
     }
 
+    /* Check for the "env" command */
+    if (strcmp(args[0], "env") == 0)
+    {
+        for (int i = 0; environ[i] != NULL; i++)
+        {
+            printf("%s\n", environ[i]);
+        }
+        return;
+    }
+
     /* Check if command exists in current dir or in PATH */
     full_path = command_in_dir(".", args[0]);
     if (!full_path)
@@ -111,4 +121,5 @@ void execute_command(char **args)
     }
     free(full_path);
 }
+
 
