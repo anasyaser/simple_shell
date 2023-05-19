@@ -6,8 +6,11 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <string.h>
 
-void execute_command(char *command);
+
+char **parse_command(char *command);
+void execute_command(char **args);
 
 #endif /* _SHELL_H_ */
