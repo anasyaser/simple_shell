@@ -2,29 +2,6 @@
 
 
 /**
- * read_input - hundle user input
- *
- * Return: string of user input
- */
-
-char *read_input()
-{
-	char *input;
-	size_t len = 0;
-	ssize_t inp;
-
-	printf("$ ");
-
-	inp = getline(&input, &len, stdin);
-	if (inp == -1)
-		exit(1);
-	*(input + inp - 1) = '\0';
-
-	return (input);
-}
-
-
-/**
  * _getline - read line from stream
  *
  * @buff: pointer to buffer containf the text
@@ -46,6 +23,28 @@ ssize_t _getline(UNUSED char **buffer, UNUSED size_t *n, FILE *stream)
 
 
 /**
+ * read_input - hundle user input
+ *
+ * Return: string of user input
+ */
+
+char *read_input()
+{
+	char *input;
+	size_t len = 0;
+	ssize_t inp;
+
+	printf("$ ");
+
+	inp = getline(&input, &len, stdin);
+	if (inp == -1)
+		exit(1);
+	*(input + inp - 1) = '\0';
+
+	return (input);
+}
+
+/**
  * read_input_v2 - read input and split string at delim to tokens
  *
  * Return: pointer to string at nth delim
@@ -62,11 +61,12 @@ char **read_input_v2()
 
 	while (getdelim(&token, &n, ' ', STDIN_FILENO) != -1)
 	{
-		args[i] = token;
 		i++;
 		args = realloc(args, sizeof(char *) * (i + 1));
+		
+		args[i] = token;
+
 	}
 	args[i] = (char *) '\0';
 	return (args);
 }
-

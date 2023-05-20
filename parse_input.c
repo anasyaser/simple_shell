@@ -1,16 +1,4 @@
 #include "header.h"
-/**
- * _strtok - split string at delim to tokens
- *
- * @str: string to split
- * @delim: string of delim
- * Return: pointer to string at nth delim
- */
-
-char *_strtok(char *str, const char *delim)
-{
-	return (NULL);
-}
 
 /**
  * get_args - convert text to array
@@ -37,3 +25,4 @@ char **get_args(char *user_input)
 	args[i] = (char *) '\0';
 	return (args);
 }
+
