@@ -14,6 +14,11 @@ char **get_args(char *user_input)
 	char **args = NULL;
 
 	args = realloc(args, sizeof(char *) * (i + 1));
+	if (!args)
+	{
+		perror("Error: ");
+		exit(EXIT_FAILURE);
+	}
 	token = strtok(user_input, " ");
 	while (token)
 	{
@@ -21,6 +26,11 @@ char **get_args(char *user_input)
 		token = strtok(NULL, " ");
 		i++;
 		args = realloc(args, sizeof(char *) * (i + 1));
+		if (!args)
+		{
+			perror("Error: ");
+			exit(EXIT_FAILURE);
+		}
 	}
 	args[i] = (char *) '\0';
 	return (args);

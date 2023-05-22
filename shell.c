@@ -31,26 +31,26 @@ size_t print_list(const env_t *h)
 
 int main(UNUSED int ac, UNUSED char **av,UNUSED char **env)
 {
-	/* char *user_input; */
-	/* char **args; */
+	char *user_input;
+	char **args;
+	env_t *path_list = create_path_list();
+	print_list(path_list);
 
-	/* while (1) */
-	/* { */
-	/* 	user_input = read_input(); */
-	/* 	args = get_args(user_input); */
-	/* 	/\* args = read_input_v2(); *\/ */
-	/* 	input_exec(args, env); */
+	while (1)
+	{
+		user_input = read_input();
+		args = get_args(user_input);
+		/* while (*(args+i)) */
+		/* { */
+		/* 	printf("args: %s\n", *(args + i)); */
+		/* 	i++; */
+		/* } */
+		/* i = 0; */
+		/* args = read_input_v2(); */
+		execute_command(args, env, path_list);
 
-	/* 	while (*args) */
-	/* 	{ */
-	/* 		free(*args); */
-	/* 		args++; */
-	/* 	} */
-	/* 	free(args); */
-	/* } */
-	char *envirr = _getenv("PATH");
-	env_t *head = create_path_list(envirr);
-	char *path = get_path(head, "ls");
-	printf("abso path: %s\n", path);
+	}
+	free(user_input);
+	free(args);
 	return (0);
 }

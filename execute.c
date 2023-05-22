@@ -1,17 +1,18 @@
 #include "header.h"
 
 /**
- * list_path_dirs - create singly linked list of path directories
+ * create_path_list - create singly linked list of path directories
  *
  * @env_value: pointer of environment variable value
- * Return: pointer to directories
+ * Return: pointer to head of linked list of dirs
  */
 
-env_t *create_path_list(char *env_value)
+env_t *create_path_list()
 {
 	env_t *head;
 	env_t *current;
 	char *paths;
+	char *env_value = _getenv("PATH");
 
 	paths = malloc(strlen(env_value) + 1);
 	if (paths == NULL)
@@ -41,54 +42,76 @@ env_t *create_path_list(char *env_value)
  * @cmd: user command
  * Return: pointer to absoulte path of command
  */
-char *get_path(env_t *head, char *cmd)
+char *get_full_path(env_t *path_list, char *cmd)
 {
-	char *path = head->path;
-	env_t *cur_path = head;
+	char *path;
 	int cmd_len = strlen(cmd);
 	struct stat st;
 
 	if (stat(cmd, &st) == 0)
 		return (cmd);
-
-	while (cur_path)
+	printf("hello 1\n");
+	while (path_list)
 	{
-		path = realloc(path, strlen(cur_path->path) + cmd_len + 1);
+		path = malloc(strlen(path_list->path) + cmd_len + 2);
+		if (path == NULL)
+		{
+			perror("Error: ");
+			exit(EXIT_FAILURE);
+		}
+		strcpy(path, path_list->path);
 		strcat(path, "/");
-		strcat(path,cmd);
+		strcat(path, cmd);
 		if (stat(path, &st) == 0)
 			return (path);
+		path_list = path_list->next;
 	}
 	return (NULL);
 }
 
 /**
- * input_exec - execute user input command
+ * execute_command - execute user input command
  *
  * @args: array of arguments
  * @env: environment
  * Return: None
  */
 
-void input_exec(char *args[], char **env)
+void execute_command(char *args[], char **env,env_t *path_list)
 {
 	pid_t child_process;
 	int status;
+	char *full_path;
 
-	
-	child_process = fork();
-	if (child_process == -1)
+	if (strcmp(args[0], "exit") == 0)
+		exit(EXIT_SUCCESS);
+	if (strcmp(args[0], "env") == 0)
 	{
-		printf("Error:");
+		print_env();
+		return;
+	}
+	full_path = get_full_path(path_list, args[0]);
+	if (!full_path)
+	{
+		free(full_path);
+		fprintf(stderr, "%s: command not found\n", args[0]);
 		return;
 	}
 
+	child_process = fork();
+	if (child_process == -1)
+	{
+		perror("Error:");
+		free(full_path);
+		return;
+	}
 	if (child_process == 0)
 	{
+		args[0] = full_path;
 		if (execve(args[0], args, env) == -1)
-		{
-			printf("Error: no such file or directory\n");
-		}
+			perror("Error: ");
+		exit(EXIT_FAILURE);
 	}
 	wait(&status);
+	free(full_path);
 }

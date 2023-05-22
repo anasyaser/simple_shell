@@ -17,7 +17,10 @@ char *read_input()
 
 	inp = getline(&input, &len, stdin);
 	if (inp == -1)
-		exit(1);
+	{
+		free(input);
+		exit(EXIT_FAILURE);
+	}
 	*(input + inp - 1) = '\0';
 
 	return (input);
@@ -27,7 +30,7 @@ char *read_input()
 /**
  * _getline - read line from stream
  *
- * @buff: pointer to buffer containf the text
+ * @buffer: pointer to buffer containf the text
  * @n: number of line chars
  * @stream: file to read from
  * Return: number of readed chars else if fail return -1
@@ -35,12 +38,16 @@ char *read_input()
 
 ssize_t _getline(UNUSED char **buffer, UNUSED size_t *n, FILE *stream)
 {
-	char buff[120];
+	char buff[1024];
 	ssize_t nread;
 
-	nread = read(fileno(stream), buff, sizeof(buff));
+	if (n == NULL || buffer == NULL)
+		return (-1);
+
+	nread = read(fileno(stream), buff, 1024);
 	if (nread == -1)
 		exit(EXIT_FAILURE);
+
 	return (nread);
 }
 
