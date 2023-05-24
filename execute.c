@@ -78,7 +78,7 @@ char *get_full_path(env_t *path_list, char *cmd)
  * Return: None
  */
 
-void execute_command(char *args[], char **env, env_t *path_list)
+void execute_command(char *args[], env_t *path_list)
 {
 	pid_t child_process;
 	int status;
@@ -86,6 +86,7 @@ void execute_command(char *args[], char **env, env_t *path_list)
 
 	if (!*args)
 		return;
+
 	builtin_handle(args);
 
 	full_path = get_full_path(path_list, args[0]);
@@ -107,10 +108,50 @@ void execute_command(char *args[], char **env, env_t *path_list)
 	if (child_process == 0)
 	{
 		args[0] = full_path;
-		if (execve(args[0], args, env) == -1)
+		if (execve(args[0], args, environ) == -1)
 			perror("Error: ");
 		exit(EXIT_FAILURE);
 	}
 	wait(&status);
 	free(full_path);
+}
+
+
+/**
+ * run_interactive - interactive shell
+ *
+ * @env: enviroment variable
+ * @paths_list: list of paths
+ * Return: None
+ */
+
+void run_interactive(env_t *paths_list)
+{
+	char *user_input;
+	char **args;
+	env_t *path_list = paths_list;
+
+	while (1)
+	{
+		user_input = read_input();
+		args = get_args(user_input);
+		execute_command(args, path_list);
+	}
+	free(user_input);
+	free(args);
+}
+
+
+/**
+ * run_uninteractive - interactive shell
+ *
+ * @args: list of arguments
+ * @env: enviroment variable
+ * @path_list: list of paths
+ * Return: None
+ */
+
+void run_uninteractive(char **args, env_t *path_list)
+{
+	execute_command(args, path_list);
 }

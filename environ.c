@@ -67,6 +67,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 	if (env_variable == NULL)
 		return (-1);
 	strcpy(env_variable, name);
+
 	strcat(env_variable, "=");
 	strcat(env_variable, value);
 

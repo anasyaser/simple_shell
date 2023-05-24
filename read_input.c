@@ -16,17 +16,22 @@ char *read_input()
 	printf("$ ");
 
 	inp = getline(&input, &len, stdin);
-
+	if (feof(stdin) && inp == -1)
+	{
+		free(input);
+		exit(EXIT_SUCCESS);
+	}
 	if (inp == -1)
 	{
+		perror("reading line error");
 		free(input);
 		exit(EXIT_FAILURE);
 	}
+
 	input[inp - 1] = '\0';
 
 	return (input);
 }
-
 
 /**
  * _getline - read line from stream

@@ -33,9 +33,11 @@ char **read_input_v2();
 /* parse_input.c */
 char **get_args(char *user_input);
 /* execute.c */
+void run_interactive(env_t *paths_list);
+void run_uninteractive(char **args, env_t *path_list);
 env_t *create_path_list();
 char *get_full_path(env_t *head, char *cmd);
-void execute_command(char **args, char **env, env_t *path);
+void execute_command(char *args[], env_t *path);
 /* environ.c */
 void print_env(void);
 char *_getenv(const char *key);
