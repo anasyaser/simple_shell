@@ -4,7 +4,8 @@
 /**
  * run_interactive - interactive shell
  *
- *
+ * @env: enviroment variable
+ * @paths_list: list of paths
  * Return: None
  */
 
@@ -24,6 +25,16 @@ void run_interactive(char **env, env_t *paths_list)
 	free(args);
 }
 
+
+/**
+ * run_uninteractive - interactive shell
+ *
+ * @args: list of arguments
+ * @env: enviroment variable
+ * @path_list: list of paths
+ * Return: None
+ */
+
 void run_uninteractive(char **args, char **env, env_t *path_list)
 {
 	execute_command(args, env, path_list);
@@ -42,7 +53,7 @@ int main(int ac, char **av, char **env)
 {
 	env_t *path_list = create_path_list();
 	char **args;
-	print_paths(path_list);
+
 	if (ac > 1)
 	{
 		args = av + 1;

@@ -22,7 +22,7 @@ char *_strchr(char *str, char chr)
 }
 
 /**
- * print_list - print paths linked list
+ * print_paths - print paths linked list
  *
  * @path_list: pointer of head of LLS
  * Return: None

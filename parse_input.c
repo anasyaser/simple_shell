@@ -3,7 +3,7 @@
 /**
  * get_args - convert text to array
  *
- * @user_input: string to conver to array
+ * @command: string to convert to array
  * Return: array of pointers to strings
  */
 
@@ -11,7 +11,7 @@ char **get_args(char *command)
 {
 	int buffer_size = 10;
 	int position = 0;
-	char **tokens = malloc(buffer_size * sizeof(char*));
+	char **tokens = malloc(buffer_size * sizeof(char *));
 	char *token;
 
 	if (!tokens)
@@ -29,7 +29,7 @@ char **get_args(char *command)
 		if (position >= buffer_size)
 		{
 			buffer_size += buffer_size;
-			tokens = realloc(tokens, buffer_size * sizeof(char*));
+			tokens = realloc(tokens, buffer_size * sizeof(char *));
 			if (!tokens)
 			{
 				fprintf(stderr, "Allocation error\n");
@@ -40,5 +40,5 @@ char **get_args(char *command)
 		token = strtok(NULL, " ");
 	}
 	tokens[position] = NULL;
-	return tokens;
+	return (tokens);
 }
