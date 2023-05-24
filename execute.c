@@ -3,7 +3,6 @@
 /**
  * create_path_list - create singly linked list of path directories
  *
- * @env_value: pointer of environment variable value
  * Return: pointer to head of linked list of dirs
  */
 
@@ -36,9 +35,9 @@ env_t *create_path_list()
 }
 
 /**
- * get_path - create absolute path of command
+ * get_full_path - create absolute path of command
  *
- * @head: pointer to head of paths linked list
+ * @path_list: pointer to head of paths linked list
  * @cmd: user command
  * Return: pointer to absoulte path of command
  */
@@ -74,17 +73,18 @@ char *get_full_path(env_t *path_list, char *cmd)
  *
  * @args: array of arguments
  * @env: environment
+ * @path_list: linked list of paths dirs
  * Return: None
  */
 
-void execute_command(char *args[], char **env,env_t *path_list)
+void execute_command(char *args[], char **env, env_t *path_list)
 {
 	pid_t child_process;
 	int status;
 	char *full_path;
 
 	builtin_handle(args);
-	
+
 	full_path = get_full_path(path_list, args[0]);
 	if (!full_path)
 	{

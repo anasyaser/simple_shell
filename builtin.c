@@ -1,5 +1,12 @@
 #include "header.h"
 
+/**
+ * builtin_handle - execution helper
+ *
+ * @args: list of aruments
+ * Return: None
+ */
+
 void builtin_handle(char *args[])
 {
 	if (strcmp(args[0], "exit") == 0)
