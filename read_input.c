@@ -4,16 +4,18 @@
 /**
  * read_input - hundle user input
  *
+ * @is_interactive: interactive mode
  * Return: string of user input
  */
 
-char *read_input()
+char *read_input(int is_interactive)
 {
 	char *input;
 	size_t len = 0;
 	ssize_t inp;
 
-	printf("$ ");
+	if (is_interactive)
+		printf("$ ");
 
 	inp = getline(&input, &len, stdin);
 	if (feof(stdin) && inp == -1)

@@ -73,7 +73,6 @@ char *get_full_path(env_t *path_list, char *cmd)
  * execute_command - execute user input command
  *
  * @args: array of arguments
- * @env: environment
  * @path_list: linked list of paths dirs
  * Return: None
  */
@@ -120,7 +119,6 @@ void execute_command(char *args[], env_t *path_list)
 /**
  * run_interactive - interactive shell
  *
- * @env: enviroment variable
  * @paths_list: list of paths
  * Return: None
  */
@@ -133,7 +131,7 @@ void run_interactive(env_t *paths_list)
 
 	while (1)
 	{
-		user_input = read_input();
+		user_input = read_input(1);
 		args = get_args(user_input);
 		execute_command(args, path_list);
 	}
@@ -145,13 +143,24 @@ void run_interactive(env_t *paths_list)
 /**
  * run_uninteractive - interactive shell
  *
- * @args: list of arguments
- * @env: enviroment variable
- * @path_list: list of paths
+ * @paths_list: list of paths
  * Return: None
  */
 
-void run_uninteractive(char **args, env_t *path_list)
+void run_uninteractive(env_t *paths_list)
 {
+	char *user_input;
+	char **args;
+	env_t *path_list = paths_list;
+
+	while (1)
+	{
+		user_input = read_input(0);
+		args = get_args(user_input);
+		execute_command(args, path_list);
+	}
+	free(user_input);
+	free(args);
+
 	execute_command(args, path_list);
 }
