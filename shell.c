@@ -13,11 +13,10 @@
 int main(UNUSED int ac, UNUSED char **av, UNUSED char **env)
 {
 	env_t *path_list = create_path_list();
-	char **args = NULL;
 
 	if (isatty(STDIN_FILENO) == 1)
 		run_interactive(path_list);
 	else
-		run_uninteractive(args, path_list);
+		run_uninteractive(path_list);
 	return (0);
 }

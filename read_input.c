@@ -18,6 +18,7 @@ char *read_input(int is_interactive)
 		printf("$ ");
 
 	inp = getline(&input, &len, stdin);
+
 	if (feof(stdin) && inp == -1)
 	{
 		free(input);

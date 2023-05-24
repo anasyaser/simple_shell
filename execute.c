@@ -156,6 +156,7 @@ void run_uninteractive(env_t *paths_list)
 	while (1)
 	{
 		user_input = read_input(0);
+		printf("user input: %s\n", user_input);
 		args = get_args(user_input);
 		execute_command(args, path_list);
 	}
