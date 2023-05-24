@@ -43,6 +43,7 @@ int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *name);
 /* helper.c */
 char *_strchr(char *str, char chr);
+void print_paths(env_t *head);
 /* builtin.c */
 void builtin_handle(char *args[]);
 #endif

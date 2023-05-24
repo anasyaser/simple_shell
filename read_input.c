@@ -16,12 +16,13 @@ char *read_input()
 	printf("$ ");
 
 	inp = getline(&input, &len, stdin);
+
 	if (inp == -1)
 	{
 		free(input);
 		exit(EXIT_FAILURE);
 	}
-	*(input + inp - 1) = '\0';
+	input[inp - 1] = '\0';
 
 	return (input);
 }

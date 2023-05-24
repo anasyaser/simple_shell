@@ -14,7 +14,6 @@ void builtin_handle(char *args[])
 	else if (strcmp(args[0], "env") == 0)
 	{
 		print_env();
-		exit(EXIT_SUCCESS);
 	} else if (strcmp(args[0], "setenv") == 0)
 	{
 		_setenv(args[1], args[2], 1);

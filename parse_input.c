@@ -7,32 +7,38 @@
  * Return: array of pointers to strings
  */
 
-char **get_args(char *user_input)
+char **get_args(char *command)
 {
+	int buffer_size = 10;
+	int position = 0;
+	char **tokens = malloc(buffer_size * sizeof(char*));
 	char *token;
-	unsigned int i = 0;
-	char **args = NULL;
 
-	args = realloc(args, sizeof(char *) * (i + 1));
-	if (!args)
+	if (!tokens)
 	{
-		perror("Error: ");
+		fprintf(stderr, "Allocation error\n");
 		exit(EXIT_FAILURE);
 	}
-	token = strtok(user_input, " ");
-	while (token)
-	{
-		args[i] = token;
-		token = strtok(NULL, " ");
-		i++;
-		args = realloc(args, sizeof(char *) * (i + 1));
-		if (!args)
-		{
-			perror("Error: ");
-			exit(EXIT_FAILURE);
-		}
-	}
-	args[i] = (char *) '\0';
-	return (args);
-}
 
+	token = strtok(command, " ");
+	while (token != NULL)
+	{
+		tokens[position] = token;
+		position++;
+
+		if (position >= buffer_size)
+		{
+			buffer_size += buffer_size;
+			tokens = realloc(tokens, buffer_size * sizeof(char*));
+			if (!tokens)
+			{
+				fprintf(stderr, "Allocation error\n");
+				exit(EXIT_FAILURE);
+			}
+		}
+
+		token = strtok(NULL, " ");
+	}
+	tokens[position] = NULL;
+	return tokens;
+}
