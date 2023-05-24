@@ -20,3 +20,19 @@ char *_strchr(char *str, char chr)
 		return (str);
 	return (NULL);
 }
+
+/**
+ * print_list - print paths linked list
+ *
+ * @path_list: pointer of head of LLS
+ * Return: None
+ */
+
+void print_paths(env_t *path_list)
+{
+	while (path_list)
+	{
+		printf("%s\n", path_list->path);
+		path_list = path_list->next;
+	}
+}

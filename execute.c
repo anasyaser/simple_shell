@@ -18,7 +18,6 @@ env_t *create_path_list()
 		return (NULL);
 
 	strcpy(paths, env_value);
-
 	head = malloc(sizeof(env_t));
 	if (head == NULL)
 		return (NULL);
@@ -27,9 +26,11 @@ env_t *create_path_list()
 	while (paths)
 	{
 		current->path = paths;
-		current->next = malloc(sizeof(env_t));
-		current = current->next;
+
 		paths = strtok(NULL, ":");
+		if (paths)
+			current->next = malloc(sizeof(env_t));
+		current = current->next;
 	}
 	return (head);
 }
@@ -83,9 +84,12 @@ void execute_command(char *args[], char **env, env_t *path_list)
 	int status;
 	char *full_path;
 
+	if (!*args)
+		return;
 	builtin_handle(args);
 
 	full_path = get_full_path(path_list, args[0]);
+
 	if (!full_path)
 	{
 		free(full_path);
