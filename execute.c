@@ -50,7 +50,7 @@ char *get_full_path(env_t *path_list, char *cmd)
 
 	if (stat(cmd, &st) == 0)
 		return (cmd);
-	printf("hello 1\n");
+
 	while (path_list)
 	{
 		path = malloc(strlen(path_list->path) + cmd_len + 2);
@@ -83,13 +83,8 @@ void execute_command(char *args[], char **env,env_t *path_list)
 	int status;
 	char *full_path;
 
-	if (strcmp(args[0], "exit") == 0)
-		exit(EXIT_SUCCESS);
-	if (strcmp(args[0], "env") == 0)
-	{
-		print_env();
-		return;
-	}
+	builtin_handle(args);
+	
 	full_path = get_full_path(path_list, args[0]);
 	if (!full_path)
 	{
