@@ -86,8 +86,8 @@ void execute_command(char *args[], env_t *path_list)
 	if (!*args)
 		return;
 
-	builtin_handle(args);
-
+	if (builtin_handle(args) == 0)
+		exit(EXIT_SUCCESS);
 	full_path = get_full_path(path_list, args[0]);
 
 	if (!full_path)

@@ -3,17 +3,19 @@
 /**
  * print_env - print current environment
  *
- * Return: None
+ * Return: 0 in success else -1
  */
-void print_env(void)
+int print_env(void)
 {
 	char **cpy = environ;
-
+	if (!*cpy)
+		return (-1);
 	while (*cpy)
 	{
 		printf("%s\n", *cpy);
 		cpy++;
 	}
+	return (0);
 }
 
 /**

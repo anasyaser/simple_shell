@@ -39,7 +39,7 @@ env_t *create_path_list();
 char *get_full_path(env_t *head, char *cmd);
 void execute_command(char *args[], env_t *path);
 /* environ.c */
-void print_env(void);
+int print_env(void);
 char *_getenv(const char *key);
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *name);
@@ -47,6 +47,6 @@ int _unsetenv(const char *name);
 char *_strchr(char *str, char chr);
 void print_paths(env_t *head);
 /* builtin.c */
-void builtin_handle(char *args[]);
+int builtin_handle(char *args[]);
 #endif
 

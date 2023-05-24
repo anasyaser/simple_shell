@@ -7,15 +7,18 @@
  * Return: None
  */
 
-void builtin_handle(char *args[])
+int builtin_handle(char *args[])
 {
+	int stat = -1;
+
 	if (strcmp(args[0], "exit") == 0)
 		exit(EXIT_SUCCESS);
 	else if (strcmp(args[0], "env") == 0)
-		print_env();
+		stat = print_env();
 	else if (strcmp(args[0], "setenv") == 0)
-		_setenv(args[1], args[2], 1);
+		stat = _setenv(args[1], args[2], 1);
 	else if (strcmp(args[0], "unsetenv") == 0)
-		_unsetenv(args[1]);
+		stat = _unsetenv(args[1]);
 
+	return (stat);
 }
