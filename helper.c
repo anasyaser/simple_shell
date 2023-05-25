@@ -36,3 +36,25 @@ void print_paths(env_t *path_list)
 		path_list = path_list->next;
 	}
 }
+
+/**
+ * free_paths - free paths linked list
+ *
+ * @head: head to linked list
+ * Return: None
+ */
+
+void free_paths(env_t *head)
+{
+	env_t *tmp = head;
+
+	if (!head)
+		return;
+	while (tmp != NULL)
+	{
+		tmp = head->next;
+		free(head->path);
+		free(head);
+		head = tmp;
+	}
+}
