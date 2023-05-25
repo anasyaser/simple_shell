@@ -14,10 +14,12 @@ cmd_t *run_intialize_cmd(int is_interactive)
 		fprintf(stderr, "Allocation error");
 		exit(EXIT_FAILURE);
 	}
+
 	cmd->user_input = read_input(is_interactive);
 	cmd->user_args = get_args(cmd->user_input);
-	cmd->env_paths = create_path_list();
-	cmd->cmd_full_path = get_full_path(cmd->env_paths,
+	cmd->path_value = get_path_value();
+	cmd->path_dirs = get_path_dir(cmd->path_value);
+	cmd->cmd_full_path = get_full_path(cmd->path_dirs,
 					   cmd->user_args[0]);
 
 	return (cmd);
@@ -32,12 +34,15 @@ cmd_t *run_intialize_cmd(int is_interactive)
 
 void free_cmd(cmd_t *cmd)
 {
-	free(cmd->user_input);
-	free(cmd->user_args);
-	if (cmd->env_paths)
-	{
-		free_paths(cmd->env_paths);
-	}
+
+	if (cmd->user_input)
+		free(cmd->user_input);
+	if(cmd->user_args)
+		free(cmd->user_args);
+	if(cmd->path_value)
+		free(cmd->path_value);
+	if (cmd->path_dirs)
+		free(cmd->path_dirs);
 	if (cmd->cmd_full_path)
 		free(cmd->cmd_full_path);
 }
@@ -52,6 +57,7 @@ void free_cmd(cmd_t *cmd)
 void print_command(cmd_t *cmd)
 {
 	char **args;
+	char **dirs;
 
 	if (!cmd)
 		printf("No command is intialized");
@@ -69,8 +75,17 @@ void print_command(cmd_t *cmd)
 	}
 	printf("\n");
 
-	printf("PATH:\n");
-	print_paths(cmd->env_paths);
+	printf("PATH Value:\n");
+	printf("%s\n", cmd->path_value);
+
+	printf("Path Dirs:\n");
+	dirs = cmd->path_dirs;
+	while (*dirs)
+	{
+		printf("%s \n", *dirs);
+		dirs++;
+	}
+	printf("\n");
 
 	printf("Full Path:\n");
 	printf("%s\n", cmd->cmd_full_path);

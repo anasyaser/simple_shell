@@ -10,9 +10,9 @@
 
 char *read_input(int is_interactive)
 {
-	char *input;
+	char *input = NULL;
 	size_t len = 0;
-	ssize_t inp;
+	ssize_t inp = -1;
 
 	if (is_interactive)
 		printf("$ ");

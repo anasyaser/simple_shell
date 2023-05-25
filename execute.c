@@ -1,73 +1,121 @@
 #include "header.h"
 
 /**
- * create_path_list - create singly linked list of path directories
+ * get_path_value - return path value
  *
- * Return: pointer to head of linked list of dirs
+ * Return: pointer to allocated path value
  */
 
-path_t *create_path_list()
+char *get_path_value()
 {
-	path_t *head;
-	path_t *current;
-	char *paths;
-	char *env_value = getenv("PATH");
+	char *path_value = getenv("PATH");
+	char *path_cpy = NULL;
 
-	if (!env_value)
-		return (NULL);
-	paths = strdup(env_value);
-	if (paths == NULL)
-		return (NULL);
-
-	head = malloc(sizeof(path_t));
-	if (head == NULL)
-		return (NULL);
-	current = head;
-	paths = strtok(paths, ":");
-	while (paths)
-	{
-		current->path = paths;
-
-		paths = strtok(NULL, ":");
-		if (paths)
-			current->next = malloc(sizeof(path_t));
-		current = current->next;
-	}
-	return (head);
+	path_cpy = strdup(path_value);
+	return (path_cpy);
 }
 
 /**
- * get_full_path - create absolute path of command
+ * get_path_dir - creat array of paths directories
  *
- * @path_list: pointer to head of paths linked list
- * @cmd: user command
- * Return: pointer to absoulte path of command
+ * @path_value: PATH value
+ * Return: pointer to array of paths directories
  */
-char *get_full_path(path_t *path_list,char *cmd)
+
+char **get_path_dir(char *path_value)
 {
-	char *path = NULL;
-	int cmd_len = strlen(cmd);
-	struct stat st;
+	int buffer_size = 5;
+	int position = 0;
+	char **tokens = NULL;
+	char *token;
 
-	if (stat(cmd, &st) == 0)
-		return (strdup(cmd));
+	if (path_value == NULL)
+		return (NULL);
 
-	while (path_list)
+	tokens = malloc(buffer_size * sizeof(char *));
+	if (tokens == NULL)
+		return (NULL);
+
+
+	token = strtok(path_value, ":");
+	while (token != NULL)
 	{
-		path = realloc(path, strlen(path_list->path) + cmd_len + 2);
-		if (path == NULL)
+		tokens[position] = token;
+		position++;
+
+		if (position >= buffer_size)
 		{
-			perror("Error: ");
-			exit(EXIT_FAILURE);
+			buffer_size += buffer_size;
+			tokens = realloc(tokens,
+					 buffer_size * sizeof(char *));
+			if (!tokens)
+				return (NULL);
 		}
-		strcpy(path, path_list->path);
-		strcat(path, "/");
-		strcat(path, cmd);
-		if (stat(path, &st) == 0)
-			return (path);
-		path_list = path_list->next;
+		token = strtok(NULL, ":");
 	}
-	free(path);
+	tokens[position] = NULL;
+	return (tokens);
+}
+
+/**
+ * command_in_dir - return absolute command path
+ *
+ * @dir: command directory
+ * @command: command
+ * Return: pointer to absolute command path
+ */
+char *command_in_dir(char *dir, char *command)
+{
+	int dir_len = strlen(dir);
+	int command_len = strlen(command);
+	char *path = NULL;
+
+	if (command_len == 0 || dir_len == 0)
+		return (NULL);
+
+	path = malloc(dir_len + command_len + 2);
+	if (path == NULL)
+		return (NULL);
+
+	strcpy(path, dir);
+	strcat(path, "/");
+	strcat(path, command);
+
+	return (path);
+}
+
+/**
+ * get_full_path - Returns full path of command
+ * @command: The command to look for
+ *
+ * Return: full path to command or NULL
+ */
+char *get_full_path(char **path_dirs, char *command)
+{
+	struct stat st;
+	char *full_path;
+
+	if (command == NULL)
+		return (NULL);
+
+	if (stat(command, &st) == 0)
+	{
+		full_path = strdup(command);
+		return (full_path);
+	}
+
+	if (path_dirs == NULL)
+		return (NULL);
+
+	while (path_dirs)
+	{
+		full_path = command_in_dir(*path_dirs, command);
+		if (stat(full_path, &st) == 0)
+			return (full_path);
+		else
+			free(full_path);
+		path_dirs++;
+	}
 	return (NULL);
 }
 
@@ -114,45 +162,4 @@ void execute_command(cmd_t *cmd)
 		exit(EXIT_FAILURE);
 	}
 	wait(&status);
-}
-
-
-/**
- * run_interactive - interactive shell
- *
- * @paths_list: list of paths
- * Return: None
- */
-
-void run_interactive()
-{
-	cmd_t *cmd = NULL;
-	while (1)
-	{
-		cmd = run_intialize_cmd(1);
-		print_command(cmd);
-		execute_command(cmd);
-		free_cmd(cmd);
-		free(cmd);
-	}
-}
-
-
-/**
- * run_uninteractive - interactive shell
- *
- * @paths_list: list of paths
- * Return: None
- */
-
-void run_uninteractive()
-{
-	cmd_t *cmd = NULL;
-	while (1)
-	{
-		cmd = run_intialize_cmd(0);
-		execute_command(cmd);
-		free_cmd(cmd);
-		free(cmd);
-	}
 }

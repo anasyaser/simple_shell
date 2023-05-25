@@ -38,7 +38,8 @@ typedef struct cmd_s
 {
 	char *user_input;
 	char **user_args;
-	path_t *env_paths;
+	char *path_value;
+	char **path_dirs;
 	char *cmd_full_path;
 } cmd_t;
 
@@ -53,8 +54,11 @@ cmd_t *run_intialize_cmd(int is_interactive);
 void free_cmd(cmd_t *cmd);
 void print_command(cmd_t *cmd);
 /* execute.c */
+char *get_path_value(void);
+char **get_path_dir(char *path_value);
+char *command_in_dir(char *dir, char *command);
 path_t *create_path_list();
-char *get_full_path(path_t *head, char *cmd);
+char *get_full_path(char **path_dir, char *cmd);
 void execute_command(cmd_t *cmd);
 void run_interactive();
 void run_uninteractive();

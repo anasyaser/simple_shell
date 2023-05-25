@@ -11,7 +11,7 @@ char **get_args(char *command)
 {
 	int buffer_size = 5;
 	int position = 0;
-	char **tokens;
+	char **tokens = NULL;
 	char *token;
 
 	if (!command)
