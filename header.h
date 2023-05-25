@@ -21,32 +21,55 @@ extern char **environ;
  *
  * Description: singly linked list node
  */
-typedef struct env_s
+typedef struct path_s
 {
 	char *path;
-	struct env_s *next;
-} env_t;
+	struct path_s *next;
+} path_t;
+
+/**
+ * struct cmd_s - linked list of command info
+ *
+ * @user_input: user input
+ * @args: array of user input arguments
+ * Description: singly linked list node
+ */
+typedef struct cmd_s
+{
+	char *user_input;
+	char **user_args;
+	path_t *env_paths;
+	char *cmd_full_path;
+} cmd_t;
+
 /* read_input.c */
 char *read_input(int is_interactive);
-ssize_t _getline(char **buff, size_t *n, FILE *stream);
-char **read_input_v2();
+
 /* parse_input.c */
 char **get_args(char *user_input);
+
+/*command.c*/
+cmd_t *run_intialize_cmd(int is_interactive);
+void free_cmd(cmd_t *cmd);
+void print_command(cmd_t *cmd);
 /* execute.c */
-void run_interactive(env_t *paths_list);
-void run_uninteractive(env_t *path_list);
-env_t *create_path_list();
-char *get_full_path(env_t *head, char *cmd);
-void execute_command(char *args[], env_t *path);
+path_t *create_path_list();
+char *get_full_path(path_t *head, char *cmd);
+void execute_command(cmd_t *cmd);
+void run_interactive();
+void run_uninteractive();
+
 /* environ.c */
 int print_env(void);
 char *_getenv(const char *key);
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *name);
+
 /* helper.c */
 char *_strchr(char *str, char chr);
-void print_paths(env_t *head);
-void free_paths(env_t *head);
+void print_paths(path_t *head);
+void free_paths(path_t *head);
+
 /* builtin.c */
 int builtin_handle(char *args[]);
 #endif

@@ -6,18 +6,20 @@
  * Return: pointer to head of linked list of dirs
  */
 
-env_t *create_path_list()
+path_t *create_path_list()
 {
-	env_t *head;
-	env_t *current;
+	path_t *head;
+	path_t *current;
 	char *paths;
-	char *env_value = _getenv("PATH");
+	char *env_value = getenv("PATH");
 
+	if (!env_value)
+		return (NULL);
 	paths = strdup(env_value);
 	if (paths == NULL)
 		return (NULL);
 
-	head = malloc(sizeof(env_t));
+	head = malloc(sizeof(path_t));
 	if (head == NULL)
 		return (NULL);
 	current = head;
@@ -28,7 +30,7 @@ env_t *create_path_list()
 
 		paths = strtok(NULL, ":");
 		if (paths)
-			current->next = malloc(sizeof(env_t));
+			current->next = malloc(sizeof(path_t));
 		current = current->next;
 	}
 	return (head);
@@ -41,18 +43,18 @@ env_t *create_path_list()
  * @cmd: user command
  * Return: pointer to absoulte path of command
  */
-char *get_full_path(env_t *path_list, char *cmd)
+char *get_full_path(path_t *path_list,char *cmd)
 {
-	char *path;
+	char *path = NULL;
 	int cmd_len = strlen(cmd);
 	struct stat st;
 
 	if (stat(cmd, &st) == 0)
-		return (cmd);
+		return (strdup(cmd));
 
 	while (path_list)
 	{
-		path = malloc(strlen(path_list->path) + cmd_len + 2);
+		path = realloc(path, strlen(path_list->path) + cmd_len + 2);
 		if (path == NULL)
 		{
 			perror("Error: ");
@@ -65,6 +67,7 @@ char *get_full_path(env_t *path_list, char *cmd)
 			return (path);
 		path_list = path_list->next;
 	}
+	free(path);
 	return (NULL);
 }
 
@@ -76,23 +79,23 @@ char *get_full_path(env_t *path_list, char *cmd)
  * Return: None
  */
 
-void execute_command(char *args[], env_t *path_list)
+void execute_command(cmd_t *cmd)
 {
 	pid_t child_process;
 	int status;
 	char *full_path;
 
-	if (!*args)
+	if (!cmd->user_args)
 		return;
 
-	if (builtin_handle(args) == 0)
+	if (builtin_handle(cmd->user_args) == 0)
 		exit(EXIT_SUCCESS);
-	full_path = get_full_path(path_list, args[0]);
+	full_path = cmd->cmd_full_path;
 
 	if (!full_path)
 	{
-		free(full_path);
-		fprintf(stderr, "%s: command not found\n", args[0]);
+		fprintf(stderr, "%s: command not found\n",
+			cmd->user_args[0]);
 		return;
 	}
 
@@ -105,13 +108,12 @@ void execute_command(char *args[], env_t *path_list)
 	}
 	if (child_process == 0)
 	{
-		args[0] = full_path;
-		if (execve(args[0], args, environ) == -1)
+		if (execve(cmd->user_args[0], cmd->user_args,
+			   environ) == -1)
 			perror("Error: ");
 		exit(EXIT_FAILURE);
 	}
 	wait(&status);
-	free(full_path);
 }
 
 
@@ -122,20 +124,17 @@ void execute_command(char *args[], env_t *path_list)
  * Return: None
  */
 
-void run_interactive(env_t *paths_list)
+void run_interactive()
 {
-	char *user_input;
-	char **args;
-	env_t *path_list = paths_list;
-
+	cmd_t *cmd = NULL;
 	while (1)
 	{
-		user_input = read_input(1);
-		args = get_args(user_input);
-		execute_command(args, path_list);
+		cmd = run_intialize_cmd(1);
+		print_command(cmd);
+		execute_command(cmd);
+		free_cmd(cmd);
+		free(cmd);
 	}
-	free(user_input);
-	free(args);
 }
 
 
@@ -146,20 +145,14 @@ void run_interactive(env_t *paths_list)
  * Return: None
  */
 
-void run_uninteractive(env_t *paths_list)
+void run_uninteractive()
 {
-	char *user_input;
-	char **args;
-	env_t *path_list = paths_list;
-
+	cmd_t *cmd = NULL;
 	while (1)
 	{
-		user_input = read_input(0);
-		args = get_args(user_input);
-		execute_command(args, path_list);
+		cmd = run_intialize_cmd(0);
+		execute_command(cmd);
+		free_cmd(cmd);
+		free(cmd);
 	}
-	free(user_input);
-	free(args);
-
-	execute_command(args, path_list);
 }

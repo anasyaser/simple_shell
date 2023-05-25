@@ -28,7 +28,7 @@ char *_strchr(char *str, char chr)
  * Return: None
  */
 
-void print_paths(env_t *path_list)
+void print_paths(path_t *path_list)
 {
 	while (path_list)
 	{
@@ -44,16 +44,17 @@ void print_paths(env_t *path_list)
  * Return: None
  */
 
-void free_paths(env_t *head)
+void free_paths(path_t *head)
 {
-	env_t *tmp = head;
+	path_t *tmp = head;
 
-	if (!head)
+	if (head == NULL)
 		return;
+
+	free(head->path);
 	while (tmp != NULL)
 	{
 		tmp = head->next;
-		free(head->path);
 		free(head);
 		head = tmp;
 	}
