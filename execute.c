@@ -13,11 +13,10 @@ env_t *create_path_list()
 	char *paths;
 	char *env_value = _getenv("PATH");
 
-	paths = malloc(strlen(env_value) + 1);
+	paths = strdup(env_value);
 	if (paths == NULL)
 		return (NULL);
 
-	strcpy(paths, env_value);
 	head = malloc(sizeof(env_t));
 	if (head == NULL)
 		return (NULL);

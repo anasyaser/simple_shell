@@ -18,5 +18,7 @@ int main(UNUSED int ac, UNUSED char **av, UNUSED char **env)
 		run_interactive(path_list);
 	else
 		run_uninteractive(path_list);
+
+	free_paths(path_list);
 	return (0);
 }
