@@ -1,1 +1,0 @@
-PATH=/home/anoos/anaconda3/bin:/usr/local/texlive/2023/bin/x86_64-linux:/home/anoos/anaconda3/condabin:/usr/local/texlive/2023/bin/x86_64-linux:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/anoos/pycharm/pycharm-2023.1/bin:/home/anoos/clion/clion-2023.1/bin

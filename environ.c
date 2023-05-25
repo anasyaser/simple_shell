@@ -8,6 +8,7 @@
 int print_env(void)
 {
 	char **cpy = environ;
+
 	if (!*cpy)
 		return (-1);
 	while (*cpy)
