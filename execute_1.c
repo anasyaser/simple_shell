@@ -1,3 +1,10 @@
+/**
+ * execute_command - execute user input command
+ *
+ * @args: array of arguments
+ * @path_list: linked list of paths dirs
+ * Return: None
+ */
 
 void execute_command(char *args[], env_t *path_list)
 {
@@ -54,4 +61,4 @@ void execute_command(char *args[], env_t *path_list)
 	if (flag)
 		free(command);
 }
-```
+
