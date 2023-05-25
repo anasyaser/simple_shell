@@ -23,7 +23,7 @@ void execute_command(cmd_t *cmd)
 		exit(EXIT_SUCCESS);
 	}
 	full_path = cmd->cmd_full_path;
-	if (!*full_path)
+	if (!full_path)
 	{
 		fprintf(stderr, "%s: command not found\n",
 			cmd->user_args[0]);
