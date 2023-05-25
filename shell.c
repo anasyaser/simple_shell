@@ -22,19 +22,14 @@ int main(UNUSED int ac, UNUSED char **av, UNUSED char **env)
 	/* print_command(cmd); */
 	/* free_cmd(cmd); */
 	/* free(cmd); */
-	int is_interactive = 0;
+	int is_interactive = isatty(STDIN_FILENO);
 	cmd_t *cmd = NULL;
 
-	if (isatty(STDIN_FILENO) == 1)
-		is_interactive = 1;
 
-	while (1)
-	{
 		cmd = run_intialize_cmd(is_interactive);
 		execute_command(cmd);
 		free_cmd(cmd);
-		free(cmd);
-	}
+
 
 	return (0);
 }

@@ -21,7 +21,6 @@ cmd_t *run_intialize_cmd(int is_interactive)
 	cmd->path_dirs = get_path_dir(cmd->path_value);
 	cmd->cmd_full_path = get_full_path(cmd->path_dirs,
 					   cmd->user_args[0]);
-
 	return (cmd);
 }
 
@@ -45,6 +44,7 @@ void free_cmd(cmd_t *cmd)
 		free(cmd->path_dirs);
 	if (cmd->cmd_full_path)
 		free(cmd->cmd_full_path);
+	free(cmd);
 }
 
 /**
@@ -86,8 +86,10 @@ void print_command(cmd_t *cmd)
 		dirs++;
 	}
 	printf("\n");
-
-	printf("Full Path:\n");
-	printf("%s\n", cmd->cmd_full_path);
+	if (cmd->cmd_full_path)
+	{
+		printf("Full Path:\n");
+		printf("%s\n", cmd->cmd_full_path);
+	}
 	printf("\n");
 }

@@ -7,12 +7,16 @@
  * Return: None
  */
 
-int builtin_handle(char *args[])
+int builtin_handle(cmd_t *cmd)
 {
 	int stat = -1;
+	char **args = cmd->user_args;
 
 	if (strcmp(args[0], "exit") == 0)
+	{
+		free_cmd(cmd);
 		exit(EXIT_SUCCESS);
+	}
 	else if (strcmp(args[0], "env") == 0)
 		stat = print_env();
 	else if (strcmp(args[0], "setenv") == 0)

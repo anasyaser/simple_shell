@@ -75,6 +75,6 @@ void print_paths(path_t *head);
 void free_paths(path_t *head);
 
 /* builtin.c */
-int builtin_handle(char *args[]);
+int builtin_handle(cmd_t *cmd);
 #endif
 
