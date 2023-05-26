@@ -11,9 +11,8 @@ char *get_path_value()
 	char *path_value = getenv("PATH");
 	char *path_cpy = NULL;
 
-	if (path_value == NULL)
-		return (path_cpy);
-	path_cpy = strdup(path_value);
+	if (path_value)
+		path_cpy = strdup(path_value);
 	return (path_cpy);
 }
 
@@ -31,8 +30,7 @@ char **get_path_dir(char *path_value)
 	char **tokens = NULL;
 	char *token;
 
-
-	if (path_value == NULL)
+	if (path_value == NULL || *path_value == '\0')
 		return (NULL);
 
 	tokens = malloc(buffer_size * sizeof(char *));
@@ -73,7 +71,7 @@ char *command_in_dir(char *dir, char *command)
 	int command_len = strlen(command);
 	char *path = NULL;
 
-	if (command_len == 0 || dir_len == 0)
+	if (command_len == 0)
 		return (NULL);
 
 	path = malloc(dir_len + command_len + 2);

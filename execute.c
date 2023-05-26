@@ -15,7 +15,7 @@ void execute_command(cmd_t *cmd)
 	char *full_path;
 
 
-	if (!(cmd->user_args[0]))
+	if (*(cmd->user_args) == NULL)
 		return;
 
 	if (builtin_handle(cmd) == 0)
@@ -41,7 +41,7 @@ void execute_command(cmd_t *cmd)
 	{
 		if (execve(cmd->cmd_full_path, cmd->user_args,
 			   environ) == -1)
-			perror("Exe Error: ");
+			perror("");
 		exit(EXIT_FAILURE);
 	}
 	wait(&status);

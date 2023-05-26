@@ -34,6 +34,5 @@ char *read_input(int is_interactive, cmd_t *cmd)
 	}
 
 	input[inp - 1] = '\0';
-
 	return (input);
 }

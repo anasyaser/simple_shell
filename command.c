@@ -19,8 +19,11 @@ cmd_t *run_intialize_cmd(int is_interactive)
 	cmd->user_args = get_args(cmd->user_input);
 	cmd->path_value = get_path_value();
 	cmd->path_dirs = get_path_dir(cmd->path_value);
-	cmd->cmd_full_path = get_full_path(cmd->path_dirs,
-					   cmd->user_args[0]);
+	if (cmd->user_args)
+		cmd->cmd_full_path = get_full_path(cmd->path_dirs,
+						   cmd->user_args[0]);
+	else
+		cmd->cmd_full_path = NULL;
 	return (cmd);
 }
 
@@ -33,7 +36,6 @@ cmd_t *run_intialize_cmd(int is_interactive)
 
 void free_cmd(cmd_t *cmd)
 {
-
 	free(cmd->user_input);
 	if(cmd->user_args)
 		free(cmd->user_args);
@@ -66,11 +68,14 @@ void print_command(cmd_t *cmd)
 	printf("%s\n", cmd->user_input);
 
 	printf("argunents:\n");
-	args = cmd->user_args;
-	while (*args)
+	if (cmd->user_args)
 	{
-		printf("%s ", *args);
-		args++;
+		args = cmd->user_args;
+		while (*args)
+		{
+			printf("%s ", *args);
+			args++;
+		}
 	}
 	printf("\n");
 

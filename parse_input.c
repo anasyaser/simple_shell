@@ -14,7 +14,7 @@ char **get_args(char *command)
 	char **tokens = NULL;
 	char *token;
 
-	if (command == NULL|| !*command)
+	if (command == NULL)
 		return (NULL);
 
 	tokens = malloc(buffer_size * sizeof(char *));
