@@ -14,7 +14,8 @@ void execute_command(cmd_t *cmd)
 	int status;
 	char *full_path;
 
-	if (!*(cmd->user_input))
+
+	if (!(cmd->user_args[0]))
 		return;
 
 	if (builtin_handle(cmd) == 0)
@@ -45,5 +46,4 @@ void execute_command(cmd_t *cmd)
 	}
 	wait(&status);
 	free_cmd(cmd);
-	exit(EXIT_SUCCESS);
 }
