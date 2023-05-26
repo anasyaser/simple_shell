@@ -8,7 +8,7 @@
  * Return: string of user input
  */
 
-char *read_input(int is_interactive)
+char *read_input(int is_interactive, cmd_t *cmd)
 {
 	char *input = NULL;
 	size_t len = 0;
@@ -21,11 +21,13 @@ char *read_input(int is_interactive)
 
 	if (feof(stdin) && inp == -1)
 	{
+		free(cmd);
 		free(input);
 		exit(EXIT_SUCCESS);
 	}
 	if (inp == -1)
 	{
+		free(cmd);
 		perror("reading line error");
 		free(input);
 		exit(EXIT_FAILURE);

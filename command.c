@@ -15,7 +15,7 @@ cmd_t *run_intialize_cmd(int is_interactive)
 		exit(EXIT_FAILURE);
 	}
 
-	cmd->user_input = read_input(is_interactive);
+	cmd->user_input = read_input(is_interactive, cmd);
 	cmd->user_args = get_args(cmd->user_input);
 	cmd->path_value = get_path_value();
 	cmd->path_dirs = get_path_dir(cmd->path_value);

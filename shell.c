@@ -19,6 +19,7 @@ int main(UNUSED int ac, UNUSED char **av, UNUSED char **env)
 	{
 		cmd = run_intialize_cmd(is_interactive);
 		execute_command(cmd);
+
 	}
 	return (0);
 }

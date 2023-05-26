@@ -44,7 +44,7 @@ typedef struct cmd_s
 } cmd_t;
 
 /* read_input.c */
-char *read_input(int is_interactive);
+char *read_input(int is_interactive, cmd_t *cmd);
 
 /* parse_input.c */
 char **get_args(char *user_input);
