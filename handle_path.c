@@ -87,15 +87,15 @@ char *command_in_dir(char *dir, char *command)
 
 /**
  * get_full_path - Returns full path of command
- * @command: The command to look for
  *
+ * @path_dirs: pointer to array of paths
+ * @command: The command to look for
  * Return: full path to command or NULL
  */
 char *get_full_path(char **path_dirs, char *command)
 {
 	struct stat st;
 	char *full_path = NULL;
-	char *cwd = getenv("PWD");
 
 	if (command == NULL)
 		return (NULL);
@@ -106,11 +106,6 @@ char *get_full_path(char **path_dirs, char *command)
 		return (full_path);
 	}
 
-	if (*command == '.')
-	{
-		full_path = command_in_dir(cwd, (command + 2));
-		return (full_path);
-	}
 	if (path_dirs == NULL)
 		return (NULL);
 
