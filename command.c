@@ -34,8 +34,7 @@ cmd_t *run_intialize_cmd(int is_interactive)
 void free_cmd(cmd_t *cmd)
 {
 
-	if (cmd->user_input)
-		free(cmd->user_input);
+	free(cmd->user_input);
 	if(cmd->user_args)
 		free(cmd->user_args);
 	if(cmd->path_value)

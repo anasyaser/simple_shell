@@ -45,5 +45,4 @@ void execute_command(cmd_t *cmd)
 		exit(EXIT_FAILURE);
 	}
 	wait(&status);
-	free_cmd(cmd);
 }
