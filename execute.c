@@ -42,6 +42,7 @@ void execute_command(cmd_t *cmd)
 		if (execve(cmd->cmd_full_path, cmd->user_args,
 			   environ) == -1)
 			perror("Exe Error: ");
+		printf("I am here")
 		exit(EXIT_FAILURE);
 	}
 	wait(&status);
