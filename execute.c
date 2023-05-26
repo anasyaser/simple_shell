@@ -28,7 +28,8 @@ void execute_command(cmd_t *cmd)
 	{
 		fprintf(stderr, "%s: command not found\n",
 			cmd->user_args[0]);
-		return;
+		free_cmd(cmd);
+		exit(EXIT_FAILURE);
 	}
 
 	child_process = fork();
@@ -41,7 +42,7 @@ void execute_command(cmd_t *cmd)
 	{
 		if (execve(cmd->cmd_full_path, cmd->user_args,
 			   environ) == -1)
-			perror("");
+			perror("Error:");
 		exit(EXIT_FAILURE);
 	}
 	wait(&status);

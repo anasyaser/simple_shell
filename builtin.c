@@ -15,7 +15,6 @@ int builtin_handle(cmd_t *cmd)
 	if (strcmp(args[0], "exit") == 0)
 	{
 		free_cmd(cmd);
-
 		exit(EXIT_SUCCESS);
 	}
 	else if (strcmp(args[0], "env") == 0)
