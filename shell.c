@@ -18,7 +18,6 @@ int main(UNUSED int ac, UNUSED char **av, UNUSED char **env)
 	while(1)
 	{
 		cmd = run_intialize_cmd(is_interactive);
-		print_command(cmd);
 		execute_command(cmd);
 	}
 	return (0);
