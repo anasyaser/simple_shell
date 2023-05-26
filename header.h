@@ -65,6 +65,7 @@ void run_uninteractive();
 
 /* environ.c */
 int print_env(void);
+void print_env2(void);
 char *_getenv(const char *key);
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *name);

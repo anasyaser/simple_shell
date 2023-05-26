@@ -19,6 +19,35 @@ int print_env(void)
 	return (0);
 }
 
+
+/**
+ * print_env2 - print current environment
+ *
+ * Return: 0 in success else -1
+ */
+void print_env2(void)
+{
+	pid_t child_process;
+	int status;
+	char *env[]= {"/usr/bin/env", NULL};
+
+
+	child_process = fork();
+	if (child_process == -1)
+	{
+		perror("Error:");
+		return;
+	}
+	if (child_process == 0)
+	{
+		if (execve("/usr/bin/env", env, environ) == -1)
+			perror("Error: ");
+		exit(EXIT_FAILURE);
+	}
+	wait(&status);
+}
+
+
 /**
  * _getenv - get value of environment variable name
  *

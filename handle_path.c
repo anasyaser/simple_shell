@@ -11,6 +11,8 @@ char *get_path_value()
 	char *path_value = getenv("PATH");
 	char *path_cpy = NULL;
 
+	if (path_value == NULL)
+		return (path_cpy);
 	path_cpy = strdup(path_value);
 	return (path_cpy);
 }
