@@ -38,10 +38,12 @@ void execute_command(cmd_t *cmd)
 	}
 	if (child_process == 0)
 	{
-		if (execve(cmd->user_args[0], cmd->user_args,
+		if (execve(cmd->cmd_full_path, cmd->user_args,
 			   environ) == -1)
-			perror("Error: ");
+			perror("Exe Error: ");
 		exit(EXIT_FAILURE);
 	}
 	wait(&status);
+	free_cmd(cmd);
+	exit(EXIT_SUCCESS);
 }

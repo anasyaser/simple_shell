@@ -95,6 +95,7 @@ char *get_full_path(char **path_dirs, char *command)
 {
 	struct stat st;
 	char *full_path = NULL;
+	char *cwd = getenv("PWD");
 
 	if (command == NULL)
 		return (NULL);
@@ -105,6 +106,11 @@ char *get_full_path(char **path_dirs, char *command)
 		return (full_path);
 	}
 
+	if (*command == '.')
+	{
+		full_path = command_in_dir(cwd, (command + 2));
+		return (full_path);
+	}
 	if (path_dirs == NULL)
 		return (NULL);
 
