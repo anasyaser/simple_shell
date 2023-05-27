@@ -1,2 +1,2 @@
 # simple_shell
-a project
+a project from hell
