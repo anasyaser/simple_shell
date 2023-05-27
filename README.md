@@ -1,2 +1,2 @@
 # simple_shell
-a project from hell
+a project from hell - Shell
