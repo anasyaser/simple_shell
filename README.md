@@ -1,2 +1,2 @@
 # simple_shell
-a project of two
+a project of
