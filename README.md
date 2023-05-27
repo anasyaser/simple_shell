@@ -1,2 +1,2 @@
 # simple_shell
-a project of only two people
+a project of two people
