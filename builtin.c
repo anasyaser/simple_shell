@@ -3,7 +3,7 @@
 /**
  * builtin_handle - execution helper
  *
- * @args: list of aruments
+ * @cmd: command struct
  * Return: None
  */
 

@@ -3,8 +3,7 @@
 /**
  * execute_command - execute user input command
  *
- * @args: array of arguments
- * @path_list: linked list of paths dirs
+ * @cmd: command struct
  * Return: None
  */
 

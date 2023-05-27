@@ -29,7 +29,7 @@ void print_env2(void)
 {
 	pid_t child_process;
 	int status;
-	char *env[]= {"/usr/bin/env", NULL};
+	char *env[] = {"/usr/bin/env", NULL};
 
 
 	child_process = fork();

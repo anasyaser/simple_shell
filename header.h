@@ -15,7 +15,7 @@
 extern char **environ;
 
 /**
- * struct env_s - linked list of path directories
+ * struct path_s - linked list of path directories
  * @path: string (malloc'ed string)
  * @next: pointer to next node
  *
@@ -31,7 +31,10 @@ typedef struct path_s
  * struct cmd_s - linked list of command info
  *
  * @user_input: user input
- * @args: array of user input arguments
+ * @user_args: array of user input arguments
+ * @path_value: pointer to path value
+ * @path_dirs: array of path directories
+ * @cmd_full_path: command full path
  * Description: singly linked list node
  */
 typedef struct cmd_s
@@ -60,8 +63,8 @@ char *command_in_dir(char *dir, char *command);
 path_t *create_path_list();
 char *get_full_path(char **path_dir, char *cmd);
 void execute_command(cmd_t *cmd);
-void run_interactive();
-void run_uninteractive();
+void run_interactive(void);
+void run_uninteractive(void);
 
 /* environ.c */
 int print_env(void);

@@ -4,7 +4,8 @@
 /**
  * read_input - hundle user input
  *
- * @is_interactive: interactive mode
+ * @is_interactive: interactive moed
+ * @cmd: command struct
  * Return: string of user input
  */
 

@@ -3,12 +3,14 @@
 /**
  * run_intialize_cmd - intialize command
  *
+ * @is_interactive: check if process is interactive
  * Return: commdand
  */
 
 cmd_t *run_intialize_cmd(int is_interactive)
 {
 	cmd_t *cmd = malloc(sizeof(cmd_t));
+
 	if (cmd == NULL)
 	{
 		fprintf(stderr, "Allocation error");
@@ -37,9 +39,9 @@ cmd_t *run_intialize_cmd(int is_interactive)
 void free_cmd(cmd_t *cmd)
 {
 	free(cmd->user_input);
-	if(cmd->user_args)
+	if (cmd->user_args)
 		free(cmd->user_args);
-	if(cmd->path_value)
+	if (cmd->path_value)
 		free(cmd->path_value);
 	if (cmd->path_dirs)
 		free(cmd->path_dirs);
