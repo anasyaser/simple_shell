@@ -1,2 +1,2 @@
 # simple_shell
-a project of 2 peoples - Anas and Youse
+a project of 2 peoples - Anas and Yousef
